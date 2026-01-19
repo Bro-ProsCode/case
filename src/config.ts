@@ -48,7 +48,7 @@ export const siteConfig = {
    * Should be the full production URL without trailing slash.
    * Example: 'https://example.com'
    */
-  url: getEnv('SITE_URL', 'https://example.com'),
+  url: getEnv('SITE_URL', 'https://brodyk.vercel.app'),
   
   /**
    * Site language (ISO 639-1 code)
@@ -89,7 +89,7 @@ export const siteConfig = {
     bio: getEnv('SITE_AUTHOR_BIO', 'Computer and Data Science major learning the secrets of the universe'),
     
     /** Contact email address */
-    email: getEnv('SITE_AUTHOR_EMAIL', 'hello@example.com'),
+    email: getEnv('SITE_AUTHOR_EMAIL', 'brodykesterdev@duck.com'),
     
     /** Location (optional, empty string to hide) */
     location: getEnv('SITE_AUTHOR_LOCATION', ''),
