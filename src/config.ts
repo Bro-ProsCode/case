@@ -63,14 +63,14 @@ export const siteConfig = {
    * 
    * Used as fallback when page-specific title is not provided.
    */
-  title: getEnv('SITE_TITLE', 'Professional Portfolio'),
+  title: getEnv('SITE_TITLE', "Brody Kester's Portfolio"),
   
   /**
    * Site description
    * 
    * Default meta description for SEO and social sharing.
    */
-  description: getEnv('SITE_DESCRIPTION', 'Engineering leader specializing in system architecture, technical decision-making, and delivering measurable business impact.'),
+  description: getEnv('SITE_DESCRIPTION', "Brody Kester's projects, journey, and creative oeuvre"),
   
   /**
    * Author information
@@ -80,13 +80,13 @@ export const siteConfig = {
    */
   author: {
     /** Full name */
-    name: getEnv('SITE_AUTHOR_NAME', 'Your Name'),
+    name: getEnv('SITE_AUTHOR_NAME', 'Brody Kester'),
     
     /** Professional title or role */
-    title: getEnv('SITE_AUTHOR_TITLE', 'Senior Software Engineer'),
+    title: getEnv('SITE_AUTHOR_TITLE', 'First-year Computer and Data Science Undergraduate at The University of Virginia'),
     
     /** Short biography or professional summary */
-    bio: getEnv('SITE_AUTHOR_BIO', 'Engineering leader focused on solving complex technical challenges through thoughtful architecture and pragmatic trade-off analysis.'),
+    bio: getEnv('SITE_AUTHOR_BIO', 'Computer and Data Science major learning the secrets of the universe'),
     
     /** Contact email address */
     email: getEnv('SITE_AUTHOR_EMAIL', 'hello@example.com'),
