@@ -125,14 +125,13 @@ export const siteConfig = {
    * Add or remove items to customize navigation.
    */
   nav: [
+    { label: 'Home', href: '/' },
     { label: 'Projects', href: '/projects' },
-    { label: 'Decisions', href: '/decisions' },
     { label: 'Journey', href: '/journey' },
-    { label: 'Writing', href: '/writing' },
-    { label: 'Speaking', href: '/speaking' },
-    { label: 'Uses', href: '/uses' },
+    { label: 'Music', href: '/music' },
     { label: 'Contact', href: '/contact' },
   ],
+
 } as const;
 
 /**
