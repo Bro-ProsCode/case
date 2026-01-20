@@ -1,9 +1,6 @@
 /**
  * Content Collections Configuration
  * * Defines the core content collections for Brody Kester's portfolio.
- * * Collections:
- * - projects: Case studies with structured narrative format
- * - journey: Career and education timeline entries
  */
 
 import { defineCollection, z } from 'astro:content';
@@ -54,7 +51,8 @@ const journeyCollection = defineCollection({
   schema: z.object({
     date: z.coerce.date(),
     title: z.string(),
-    type: z.enum(['milestone', 'learning', 'transition']),
+    // Added 'achievement' to the enum below
+    type: z.enum(['milestone', 'learning', 'transition', 'achievement']),
     description: z.string(),
     skills: z.array(z.string()).optional(),
   }),

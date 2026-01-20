@@ -81,12 +81,14 @@ const interests = [
               </div>
             )}
 
-            {/* Card 2: UVA Status */}
+            {/* Card 2: UVA Status / Achievement */}
             {uvaStatus ? (
               <a href="/journey" class="case-snapshot">
                 <div class="snapshot-header">
                   <span class="case-label">Current Status · {uvaStatus.data.type}</span>
-                  <span class="status-tag tag-ongoing">Ongoing</span>
+                  <span class={`status-tag tag-${uvaStatus.data.type || 'ongoing'}`}>
+                    {uvaStatus.data.type === 'achievement' ? 'Achievement' : 'Ongoing'}
+                  </span>
                 </div>
                 <span class="case-title">{uvaStatus.data.title}</span>
                 <span class="case-outcome">{uvaStatus.data.description}</span>
@@ -157,13 +159,17 @@ const interests = [
     .case-title { display: block; font-size: 1rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.5rem; line-height: 1.4; }
     .case-outcome { display: block; font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.5; }
 
+    /* Tag System */
     .status-tag { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 4px; letter-spacing: 0.02em; }
-    .tag-ongoing { background-color: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
     .tag-date { background-color: var(--color-bg-elevated); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+    
+    /* Dynamic Journey Colors */
+    .tag-ongoing, .tag-milestone { background-color: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
+    .tag-achievement { background-color: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+    .tag-transition { background-color: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
 
     .introduction { max-width: 600px; margin-bottom: 5rem; font-size: 1.125rem; line-height: 1.7; color: var(--color-text-secondary); }
     
-    /* New Interests Section Styling */
     .thinking { margin-bottom: 5rem; }
     .thinking h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem; }
     .interest-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; max-width: 800px; }
