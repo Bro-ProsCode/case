@@ -1,19 +1,7 @@
 ---
 /**
  * RelatedContent Component
- * 
- * Displays related projects and decisions for cross-referencing content.
- * Fetches actual content data from slugs and renders compact cards.
- * 
- * @component
- * 
- * @example
- * ```astro
- * <RelatedContent 
- *   relatedProjects={['project-slug-1', 'project-slug-2']}
- *   relatedDecisions={['decision-slug-1']}
- * />
- * ```
+ * * Displays related projects and decisions for cross-referencing content.
  */
 
 import { getCollection } from 'astro:content';
@@ -35,16 +23,20 @@ const {
   title = "Related"
 } = Astro.props;
 
-// Fetch all collections once
+// Fetch projects collection
 const allProjects = await getCollection('projects');
-// const allDecisions = await getCollection('decisions');
-const allDecisions = []; // Set to empty so the rest of the code doesn't break
+
+/** * FIX: Explicitly typing the empty array as any[] 
+ * prevents the TS7005 "implicitly has an any[] type" error.
+ */
+const allDecisions: any[] = []; 
 
 // Filter to get related items
 const projects = relatedProjects
   .map(slug => allProjects.find(p => p.id === slug))
   .filter((p): p is NonNullable<typeof p> => p !== undefined);
 
+// This will always result in an empty array now that decisions are removed
 const decisions = relatedDecisions
   .map(slug => allDecisions.find(d => d.id === slug))
   .filter((d): d is NonNullable<typeof d> => d !== undefined);
@@ -88,6 +80,7 @@ function formatDate(date: Date): string {
         </div>
       )}
       
+      {/* This block will stay hidden as long as decisions array is empty */}
       {decisions.length > 0 && (
         <div class="related-section">
           <h3 class="related-section-title">
