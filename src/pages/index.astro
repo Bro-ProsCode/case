@@ -14,8 +14,7 @@ import { siteConfig } from '../config';
 
 /**
  * Specifically fetch the two items for the hero section.
- * Ensure the IDs ('seap-project' and 'uva-student') match your 
- * filename in src/content/projects/ and src/content/journey/
+ * Ensure these IDs match filenames in src/content/projects/ and src/content/journey/
  */
 const seapProject = await getEntry('projects', 'seap-project');
 const uvaStatus = await getEntry('journey', 'uva-student');
@@ -53,44 +52,43 @@ const uvaStatus = await getEntry('journey', 'uva-student');
           </div>
         </div>
 
-          <div class="hero-right">
-            <div class="case-snapshots">
-              
-              {/* Card 1: SEAP Project */}
-              {seapProject ? (
-                <a href={`/projects/${seapProject.id}`} class="case-snapshot">
-                  <div class="snapshot-header">
-                    <span class="case-label">Featured Project · {seapProject.data.role}</span>
-                    <span class="status-tag tag-date">June 2025</span>
-                  </div>
-                  <span class="case-title">{seapProject.data.title}</span>
-                  <span class="case-outcome">{seapProject.data.outcomeSummary}</span>
-                </a>
-              ) : (
-                <div class="case-snapshot">
-                  <span class="case-label">Missing File</span>
-                  <span class="case-title">SEAP Project Not Found</span>
+        <div class="hero-right">
+          <div class="case-snapshots">
+            
+            {/* Card 1: SEAP Project */}
+            {seapProject ? (
+              <a href={`/projects/${seapProject.id}`} class="case-snapshot">
+                <div class="snapshot-header">
+                  <span class="case-label">Featured Project · {seapProject.data.role}</span>
+                  <span class="status-tag tag-date">{seapProject.data.year}</span>
                 </div>
-              )}
+                <span class="case-title">{seapProject.data.title}</span>
+                <span class="case-outcome">{seapProject.data.outcomeSummary}</span>
+              </a>
+            ) : (
+              <div class="case-snapshot missing">
+                <span class="case-label">Configuration</span>
+                <span class="case-title">SEAP Project coming soon</span>
+              </div>
+            )}
 
-              {/* Card 2: UVA Status */}
-              {uvaStatus ? (
-                <a href="/journey" class="case-snapshot">
-                  <div class="snapshot-header">
-                    <span class="case-label">Current Status · {uvaStatus.data.type}</span>
-                    <span class="status-tag tag-ongoing">Ongoing</span>
-                  </div>
-                  <span class="case-title">{uvaStatus.data.title}</span>
-                  <span class="case-outcome">{uvaStatus.data.description}</span>
-                </a>
-              ) : (
-                <div class="case-snapshot">
-                  <span class="case-label">Missing File</span>
-                  <span class="case-title">UVA Status Not Found</span>
+            {/* Card 2: UVA Status */}
+            {uvaStatus ? (
+              <a href="/journey" class="case-snapshot">
+                <div class="snapshot-header">
+                  <span class="case-label">Current Status · {uvaStatus.data.type}</span>
+                  <span class="status-tag tag-ongoing">Ongoing</span>
                 </div>
-              )}
+                <span class="case-title">{uvaStatus.data.title}</span>
+                <span class="case-outcome">{uvaStatus.data.description}</span>
+              </a>
+            ) : (
+              <div class="case-snapshot missing">
+                <span class="case-label">Configuration</span>
+                <span class="case-title">Journey details coming soon</span>
+              </div>
+            )}
 
-            </div>
           </div>
         </div>
       </div>
@@ -123,8 +121,6 @@ const uvaStatus = await getEntry('journey', 'uva-student');
         <a href="/music" class="btn-secondary">View Music</a>
       </div>
     </section>
-
-    
   </main>
 
   <style>
@@ -137,19 +133,28 @@ const uvaStatus = await getEntry('journey', 'uva-student');
     .hero-sub { font-size: 1.125rem; color: var(--color-text-secondary); margin-bottom: 1.5rem; line-height: 1.6; }
     .hero-meta { font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 2rem; letter-spacing: 0.01em; }
     .hero-cta { display: flex; gap: 1rem; }
+    
     .btn-primary { display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-text); color: var(--color-bg); font-weight: 600; font-size: 0.9375rem; text-decoration: none; border-radius: 6px; transition: opacity 0.2s ease; }
     .btn-primary:hover { opacity: 0.85; }
     .btn-secondary { display: inline-block; padding: 0.75rem 1.5rem; background: transparent; color: var(--color-text); font-weight: 500; font-size: 0.9375rem; text-decoration: none; border: 1px solid var(--color-border); border-radius: 6px; transition: border-color 0.2s ease; }
     .btn-secondary:hover { border-color: var(--color-text-secondary); }
+
     .hero-right { padding-top: 0.5rem; }
     .case-snapshots { display: flex; flex-direction: column; gap: 1rem; }
-    .case-snapshot { display: block; padding: 1.25rem 1.5rem; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; text-decoration: none; transition: border-color 0.2s ease, background 0.2s ease; }
-    .case-snapshot:hover { border-color: var(--color-text-muted); background: var(--color-bg-elevated); }
-    .case-label { display: block; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: 0.375rem; }
+    .case-snapshot { display: block; padding: 1.25rem 1.5rem; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; text-decoration: none; transition: transform 0.2s ease, border-color 0.2s ease; }
+    .case-snapshot:hover { transform: translateY(-2px); border-color: var(--color-text-muted); }
+    .case-snapshot.missing { opacity: 0.6; cursor: default; }
+
+    .snapshot-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .case-label { font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); }
     .case-title { display: block; font-size: 1rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.5rem; line-height: 1.4; }
     .case-outcome { display: block; font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.5; }
+
+    .status-tag { font-size: 0.625rem; font-weight: 700; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 4px; letter-spacing: 0.02em; }
+    .tag-ongoing { background-color: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.2); }
+    .tag-date { background-color: var(--color-bg-elevated); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+
     .introduction { max-width: 600px; margin-bottom: 5rem; font-size: 1.125rem; line-height: 1.7; color: var(--color-text-secondary); }
-    .introduction p { margin-bottom: 1rem; }
     .thinking { margin-bottom: 5rem; }
     .thinking h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.25rem; }
     .thinking-list { font-size: 1.0625rem; line-height: 1.9; color: var(--color-text-secondary); max-width: 680px; }
@@ -157,48 +162,11 @@ const uvaStatus = await getEntry('journey', 'uva-student');
     .cta h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem; }
     .cta p { font-size: 1rem; color: var(--color-text-secondary); margin-bottom: 1.5rem; max-width: 500px; line-height: 1.6; }
     .cta-buttons { display: flex; gap: 1rem; }
-    
+
     @media (max-width: 768px) {
       .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .hero-left { padding-right: 0; }
       .hero-cta, .cta-buttons { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; width: 100%; }
     }
-
-    /* New styles for the visual tags */
-  .snapshot-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-  }
-
-  .status-tag {
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    letter-spacing: 0.02em;
-  }
-
-  /* The Green "Ongoing" tag */
-  .tag-ongoing {
-    background-color: rgba(34, 197, 94, 0.1); /* Subtle green bg */
-    color: #22c55e; /* Bright green text */
-    border: 1px solid rgba(34, 197, 94, 0.2);
-  }
-
-  /* The Date tag */
-  .tag-date {
-    background-color: var(--color-bg-elevated);
-    color: var(--color-text-muted);
-    border: 1px solid var(--color-border);
-  }
-
-  /* Ensure the label doesn't have its own bottom margin anymore */
-  .case-label {
-    margin-bottom: 0 !important;
-  }
   </style>
 </BaseLayout>
