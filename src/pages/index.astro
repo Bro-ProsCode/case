@@ -93,18 +93,18 @@ const recentDecisions = allDecisions
         <!-- Left: Value Statement -->
         <div class="hero-left">
           <h1 class="hero-title">
-            I don't just ship projects.<br/>
-            <span class="hero-title-emphasis">I document decisions, trade-offs, and outcomes.</span>
+            Hello! I'm Brody. Let's build.<br/>
+            <span class="hero-title-emphasis">I find joy in learning richly and solving elegantly.</span>
           </h1>
           <p class="hero-sub">
-            A portfolio built around case studies — not screenshots.
+            A portfolio built around projects and original work.
           </p>
           <p class="hero-meta">
             {siteConfig.author.name} · {siteConfig.author.title}
           </p>
           <div class="hero-cta">
-            <a href="/projects" class="btn-primary">Explore Case Studies</a>
-            <a href="/decisions" class="btn-secondary">How I Make Decisions</a>
+            <a href="/projects" class="btn-primary">Explore Real Projects</a>
+            <a href="/journey" class="btn-secondary">My Journey</a>
           </div>
         </div>
 
@@ -126,42 +126,13 @@ const recentDecisions = allDecisions
     <!-- Introduction -->
     <section class="introduction">
       <p>
-        I'm {siteConfig.author.name}, {siteConfig.author.title.toLowerCase()} focused on building systems that move real business metrics.
+        I'm {siteConfig.author.name}, {siteConfig.author.title.toLowerCase()} focused on scholastic inquiry and meticulous solutions.
       </p>
       <p>
-        Every major decision is documented—because great engineers don't just build things, they explain why.
+        Projects and creative works are included to highlight multidisciplinary thinking.
       </p>
-      <ForwardLink href="/journey" text="Read my journey" variant="muted" />
+      <ForwardLink href="/music" text="View my Music" variant="muted" />
     </section>
-
-    <!-- Recent Decisions -->
-    <section class="recent-decisions">
-      <div class="section-header">
-        <h2>Recent Decisions</h2>
-        <ForwardLink href="/decisions" text="View all" variant="muted" />
-      </div>
-      
-      {recentDecisions.length > 0 ? (
-        <div class="decisions-list">
-          {recentDecisions.map((decision) => {
-            const date = new Date(decision.data.date);
-            const formattedDate = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-            return (
-              <article class="decision-item">
-                <span class="decision-date">{formattedDate}</span>
-                <h3 class="decision-title">{decision.data.title}</h3>
-                <p class="decision-context">{decision.data.context}</p>
-              </article>
-            );
-          })}
-        </div>
-      ) : (
-        <p class="no-decisions">No decisions documented yet.</p>
-      )}
-    </section>
-
-    <!-- Testimonials -->
-    <Testimonials limit={3} />
 
     <!-- What I Think About -->
     <section class="thinking">
