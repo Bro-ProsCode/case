@@ -14,10 +14,19 @@ import { siteConfig } from '../config';
 
 /**
  * Specifically fetch the two items for the hero section.
- * Ensure these IDs match filenames in src/content/projects/ and src/content/journey/
  */
 const seapProject = await getEntry('projects', 'seap-project');
 const uvaStatus = await getEntry('journey', 'uva-student');
+
+const interests = [
+  "Data Visualization",
+  "Algorithmic Composition",
+  "Machine Learning",
+  "System Architecture",
+  "Musical Theory",
+  "Scalable Software",
+  "Scholastic Excellence"
+];
 ---
 
 <BaseLayout>
@@ -88,7 +97,6 @@ const uvaStatus = await getEntry('journey', 'uva-student');
                 <span class="case-title">Journey details coming soon</span>
               </div>
             )}
-
           </div>
         </div>
       </div>
@@ -103,9 +111,11 @@ const uvaStatus = await getEntry('journey', 'uva-student');
 
     <section class="thinking">
       <h2>Interests & Inquiry</h2>
-      <p class="thinking-list">
-        Data Visualization · Algorithmic Composition · Machine Learning · System Architecture · Musical Theory · Scalable Software · Scholastic Excellence
-      </p>
+      <div class="interest-tags">
+        {interests.map((item) => (
+          <span class="interest-tag">{item}</span>
+        ))}
+      </div>
     </section>
 
     <section class="cta">
@@ -152,9 +162,27 @@ const uvaStatus = await getEntry('journey', 'uva-student');
     .tag-date { background-color: var(--color-bg-elevated); color: var(--color-text-muted); border: 1px solid var(--color-border); }
 
     .introduction { max-width: 600px; margin-bottom: 5rem; font-size: 1.125rem; line-height: 1.7; color: var(--color-text-secondary); }
+    
+    /* New Interests Section Styling */
     .thinking { margin-bottom: 5rem; }
-    .thinking h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.25rem; }
-    .thinking-list { font-size: 1.0625rem; line-height: 1.9; color: var(--color-text-secondary); max-width: 680px; }
+    .thinking h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem; }
+    .interest-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; max-width: 800px; }
+    .interest-tag { 
+      padding: 0.5rem 1rem; 
+      background: var(--color-bg-secondary); 
+      border: 1px solid var(--color-border); 
+      border-radius: 100px; 
+      font-size: 0.9375rem; 
+      color: var(--color-text-secondary);
+      transition: all 0.2s ease;
+    }
+    .interest-tag:hover {
+      border-color: var(--color-text-muted);
+      background: var(--color-bg-elevated);
+      color: var(--color-text);
+      transform: translateY(-1px);
+    }
+
     .cta { padding: 3rem 0; border-top: 1px solid var(--color-border); }
     .cta h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem; }
     .cta p { font-size: 1rem; color: var(--color-text-secondary); margin-bottom: 1.5rem; max-width: 500px; line-height: 1.6; }
