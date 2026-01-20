@@ -9,17 +9,16 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
 import StructuredData from '../components/StructuredData.astro';
 import ForwardLink from '../components/ForwardLink.astro';
-import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 import { siteConfig } from '../config';
 
 /**
- * Queries and filters featured projects for hero section
+ * Specifically fetch the two items for the hero section.
+ * Ensure the IDs ('seap-project' and 'uva-student') match your 
+ * filename in src/content/projects/ and src/content/journey/
  */
-const allProjects = await getCollection('projects');
-const caseSnapshots = allProjects
-  .filter(project => project.data.featured === true)
-  .sort((a, b) => (a.data.order || 999) - (b.data.order || 999))
-  .slice(0, 3);
+const seapProject = await getEntry('projects', 'seap-project');
+const uvaStatus = await getEntry('journey', 'uva-student');
 ---
 
 <BaseLayout>
@@ -56,20 +55,37 @@ const caseSnapshots = allProjects
 
         <div class="hero-right">
           <div class="case-snapshots">
-            {caseSnapshots.map((project) => (
-              <a href={`/projects/${project.id}`} class="case-snapshot">
-                <span class="case-label">Featured · {project.data.role}</span>
-                <span class="case-title">{project.data.title}</span>
-                <span class="case-outcome">{project.data.outcomeSummary}</span>
+            
+            {/* Card 1: SEAP Project */}
+            {seapProject ? (
+              <a href={`/projects/${seapProject.id}`} class="case-snapshot">
+                <span class="case-label">Featured Project · {seapProject.data.role}</span>
+                <span class="case-title">{seapProject.data.title}</span>
+                <span class="case-outcome">{seapProject.data.outcomeSummary}</span>
               </a>
-            ))}
-            {caseSnapshots.length === 0 && (
-               <div class="case-snapshot">
-                <span class="case-label">Getting Started</span>
-                <span class="case-title">Your first project will appear here</span>
-                <span class="case-outcome">Mark a project as "featured: true" in its markdown file to show it on the home page.</span>
+            ) : (
+              <div class="case-snapshot">
+                <span class="case-label">Missing File</span>
+                <span class="case-title">SEAP Project Not Found</span>
+                <span class="case-outcome">Check that src/content/projects/seap-project.md exists.</span>
               </div>
             )}
+
+            {/* Card 2: UVA Status pulled from Journey */}
+            {uvaStatus ? (
+              <a href="/journey" class="case-snapshot">
+                <span class="case-label">Current Status · {uvaStatus.data.type}</span>
+                <span class="case-title">{uvaStatus.data.title}</span>
+                <span class="case-outcome">{uvaStatus.data.description}</span>
+              </a>
+            ) : (
+              <div class="case-snapshot">
+                <span class="case-label">Missing File</span>
+                <span class="case-title">UVA Status Not Found</span>
+                <span class="case-outcome">Check that src/content/journey/uva-student.mdx exists.</span>
+              </div>
+            )}
+
           </div>
         </div>
       </div>
@@ -98,14 +114,13 @@ const caseSnapshots = allProjects
         Whether you're interested in my data science work or my musical compositions, I'd love to hear from you.
       </p>
       <div class="cta-buttons">
-        <a href="/contact" class="btn-primary">Get in Touch</a>
-        <a href="/music" class="btn-secondary">View Music</a>
+        <a href="/music" class="btn-primary">View Music</a>
+        <a href="/contact" class="btn-secondary">Get in Touch</a>
       </div>
     </section>
   </main>
 
   <style>
-    /* ... (The CSS remains exactly as you had it, it was perfect) ... */
     .home-page { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem 4rem; }
     .hero { padding: 4rem 0 5rem; border-bottom: 1px solid var(--color-border); margin-bottom: 4rem; }
     .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
@@ -115,11 +130,14 @@ const caseSnapshots = allProjects
     .hero-sub { font-size: 1.125rem; color: var(--color-text-secondary); margin-bottom: 1.5rem; line-height: 1.6; }
     .hero-meta { font-size: 0.875rem; color: var(--color-text-muted); margin-bottom: 2rem; letter-spacing: 0.01em; }
     .hero-cta { display: flex; gap: 1rem; }
-    .btn-primary { display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-text); color: var(--color-bg); font-weight: 600; font-size: 0.9375rem; text-decoration: none; border-radius: 6px; }
-    .btn-secondary { display: inline-block; padding: 0.75rem 1.5rem; background: transparent; color: var(--color-text); font-weight: 500; font-size: 0.9375rem; text-decoration: none; border: 1px solid var(--color-border); border-radius: 6px; }
+    .btn-primary { display: inline-block; padding: 0.75rem 1.5rem; background: var(--color-text); color: var(--color-bg); font-weight: 600; font-size: 0.9375rem; text-decoration: none; border-radius: 6px; transition: opacity 0.2s ease; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary { display: inline-block; padding: 0.75rem 1.5rem; background: transparent; color: var(--color-text); font-weight: 500; font-size: 0.9375rem; text-decoration: none; border: 1px solid var(--color-border); border-radius: 6px; transition: border-color 0.2s ease; }
+    .btn-secondary:hover { border-color: var(--color-text-secondary); }
     .hero-right { padding-top: 0.5rem; }
     .case-snapshots { display: flex; flex-direction: column; gap: 1rem; }
-    .case-snapshot { display: block; padding: 1.25rem 1.5rem; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; text-decoration: none; }
+    .case-snapshot { display: block; padding: 1.25rem 1.5rem; background: var(--color-bg-secondary); border: 1px solid var(--color-border); border-radius: 8px; text-decoration: none; transition: border-color 0.2s ease, background 0.2s ease; }
+    .case-snapshot:hover { border-color: var(--color-text-muted); background: var(--color-bg-elevated); }
     .case-label { display: block; font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin-bottom: 0.375rem; }
     .case-title { display: block; font-size: 1rem; font-weight: 600; color: var(--color-text); margin-bottom: 0.5rem; line-height: 1.4; }
     .case-outcome { display: block; font-size: 0.875rem; color: var(--color-text-secondary); line-height: 1.5; }
@@ -130,12 +148,14 @@ const caseSnapshots = allProjects
     .thinking-list { font-size: 1.0625rem; line-height: 1.9; color: var(--color-text-secondary); max-width: 680px; }
     .cta { padding: 3rem 0; border-top: 1px solid var(--color-border); }
     .cta h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem; }
-    .cta p { font-size: 1rem; color: var(--color-text-secondary); margin-bottom: 1.5rem; max-width: 500px; }
+    .cta p { font-size: 1rem; color: var(--color-text-secondary); margin-bottom: 1.5rem; max-width: 500px; line-height: 1.6; }
     .cta-buttons { display: flex; gap: 1rem; }
     
     @media (max-width: 768px) {
       .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-left { padding-right: 0; }
       .hero-cta, .cta-buttons { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; width: 100%; }
     }
   </style>
 </BaseLayout>

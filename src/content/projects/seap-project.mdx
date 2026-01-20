@@ -1,0 +1,58 @@
+---
+title: "Autonomous UUV Systems Development"
+role: "SEAP Research Apprentice"
+year: 2025
+duration: "8 weeks"
+teamSize: 1
+outcomeSummary: "Developed autonomous mission scripts and failure recovery protocols for Unmanned Underwater Vehicles using Python and BlueOS."
+overview: "Collaborated with the NSWCDD team to enhance the operational capabilities of Unmanned Underwater Vehicles (UUVs). My work focused on bridging the gap between manual control and fully autonomous mission execution through custom scripting and software integration."
+problem: "The UUV systems required more robust autonomous mission protocols and a more reliable way to handle communication failures or sensor discrepancies during underwater operations."
+constraints:
+  - "Hardware-in-the-loop testing requirements"
+  - "High-stakes testing environments with zero-room for vehicle loss"
+  - "Integration with specialized BlueOS and QGroundControl software"
+  - "Strict 8-week delivery window for research outcomes"
+approach: "I utilized Python-based scripting to interface with the MAVLink protocol, allowing for the creation of sophisticated mission parameters. I focused on building modular code that could handle manual-to-autonomous handoffs and implement 'return-to-home' logic if failure states were detected."
+keyDecisions:
+  - decision: "Utilized Python scripts over manual QGroundControl plotting"
+    reasoning: "Scripting allows for dynamic adjustments based on real-time sensor data, which is essential for unpredictable underwater environments where static waypoints are insufficient."
+    alternatives:
+      - "Standard GUI waypoint mission planning"
+      - "C++ based firmware modifications"
+  - decision: "Implemented automated failure recovery logic"
+    reasoning: "Underwater vehicles are prone to signal loss. Autonomous failure recovery (failsafes) ensures the asset returns to the surface or a coordinate without human intervention."
+    alternatives:
+      - "Manual pilot-only control"
+      - "Acoustic-only tethered operations"
+techStack:
+  - "Python"
+  - "BlueOS"
+  - "QGroundControl"
+  - "MAVLink"
+  - "Raspberry Pi"
+  - "Linux (Ubuntu)"
+impact:
+  metrics:
+    - label: "Mission Autonomy"
+      value: "100% automated waypoint execution"
+    - label: "System Recovery"
+      value: "Implemented 3 new failure protocols"
+    - label: "Software Efficiency"
+      value: "Streamlined BlueOS configurations"
+  qualitative: "Successfully demonstrated autonomous mission capabilities to NSWCDD mentors. The scripts developed allowed for precise control over vehicle depth and orientation, significantly reducing the cognitive load on manual pilots during complex data collection tasks."
+learnings:
+  - "Hardware-software integration requires rigorous edge-case testing when physical assets are at risk."
+  - "Python is an incredibly powerful tool for rapid prototyping in robotics and autonomous systems."
+  - "Technical documentation is as important as the code itself when working in a specialized research environment like Dahlgren."
+featured: true
+status: completed
+order: 1
+---
+
+## Additional Context
+
+Working at the **Naval Surface Warfare Center Dahlgren Division** provided a unique look into how Data Science and Computer Science intersect with physical engineering. 
+
+
+
+The most challenging aspect was ensuring the Python scripts communicated correctly with the vehicle's Raspberry Pi brain over the MAVLink protocol. This project solidified my interest in pursuing the Cybersecurity and Data Science paths at UVA, as I saw firsthand how vital secure, data-driven autonomous systems are for modern naval operations.
