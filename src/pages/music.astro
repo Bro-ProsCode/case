@@ -31,7 +31,7 @@ const totalWorks = compositions.length;
     <header class="page-header">
       <h1 class="page-title">Original Music</h1>
       <p class="page-intro">A collection of my original compositions, scores, and arrangements.</p>
-      <PageStats text={`${totalWorks} compositions`} />
+      <PageStats text={`${totalWorks} ${totalWorks === 1 ? 'composition' : 'compositions'}`} />
     </header>
 
     <div class="card-list">
