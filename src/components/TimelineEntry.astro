@@ -1,44 +1,7 @@
 ---
 /**
  * TimelineEntry Component
- * 
- * Displays a single entry in a journey/career timeline with visual indicators, metadata,
- * and optional expandable content. Features a vertical timeline design with color-coded
- * dots and type badges to distinguish between milestones, learning experiences, and transitions.
- * 
- * Each entry can include:
- * - Date and type indicator
- * - Title and description
- * - Skills/technologies list
- * - Expandable detailed content (via slot)
- * 
- * @component
- * 
- * @slot default - Optional detailed content shown when expanded (supports markdown/prose)
- * 
- * @example
- * ```astro
- * <!-- Simple timeline entry without expandable content -->
- * <TimelineEntry
- *   date={new Date('2024-01-15')}
- *   title="Launched New Product"
- *   type="milestone"
- *   description="Successfully launched the redesigned platform to 10k users"
- *   skills={['React', 'TypeScript', 'AWS']}
- * />
- * 
- * <!-- Timeline entry with expandable content -->
- * <TimelineEntry
- *   date={new Date('2023-06-01')}
- *   title="Joined Tech Company"
- *   type="transition"
- *   description="Started as Senior Frontend Developer"
- *   skills={['Vue.js', 'Node.js']}
- *   hasContent={true}
- * >
- *   <p>Detailed information about the role and achievements...</p>
- * </TimelineEntry>
- * ```
+ * * Displays a single entry in a journey/career timeline with visual indicators.
  */
 
 interface Props {
@@ -49,7 +12,7 @@ interface Props {
   title: string;
   
   /** Type of entry (determines color coding and badge label) */
-  type: 'milestone' | 'learning' | 'transition';
+  type: 'milestone' | 'learning' | 'transition' | 'achievement';
   
   /** Brief description of the event or achievement */
   description: string;
@@ -65,9 +28,6 @@ const { date, title, type, description, skills, hasContent = false } = Astro.pro
 
 /**
  * Formats the date to show month and year only
- * 
- * Uses US English locale with long month format.
- * Example output: "January 2024"
  */
 const formattedDate = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
@@ -76,23 +36,16 @@ const formattedDate = new Intl.DateTimeFormat('en-US', {
 
 /**
  * Human-readable labels for timeline entry types
- * 
- * Maps internal type values to display labels shown in the badge.
- * Each type has a distinct color in the UI:
- * - milestone: accent color (achievements, launches)
- * - learning: green (education, skill development)
- * - transition: orange (job changes, career moves)
  */
 const typeLabels = {
   milestone: 'Milestone',
   learning: 'Learning',
-  transition: 'Transition'
+  transition: 'Transition',
+  achievement: 'Achievement'
 };
 
 /**
  * Generates a unique ID for ARIA accessibility
- * 
- * Uses timestamp to ensure uniqueness for expand/collapse functionality.
  */
 const entryId = `journey-${date.getTime()}`;
 ---
@@ -153,7 +106,6 @@ const entryId = `journey-${date.getTime()}`;
 </article>
 
 <style>
-
   .timeline-entry {
     display: grid;
     grid-template-columns: 2rem 1fr;
@@ -183,17 +135,11 @@ const entryId = `journey-${date.getTime()}`;
     flex-shrink: 0;
   }
 
-  .timeline-dot[data-type="milestone"] {
-    background: var(--color-accent);
-  }
-
-  .timeline-dot[data-type="learning"] {
-    background: #10b981;
-  }
-
-  .timeline-dot[data-type="transition"] {
-    background: #f59e0b;
-  }
+  /* Dot Colors */
+  .timeline-dot[data-type="milestone"] { background: var(--color-accent); }
+  .timeline-dot[data-type="learning"] { background: #10b981; }
+  .timeline-dot[data-type="transition"] { background: #3b82f6; }
+  .timeline-dot[data-type="achievement"] { background: #f59e0b; }
 
   .timeline-line {
     width: 2px;
@@ -230,17 +176,20 @@ const entryId = `journey-${date.getTime()}`;
     border: 1px solid var(--color-border);
   }
 
+  /* Badge Colors */
   .timeline-type[data-type="milestone"] {
     color: var(--color-accent);
     border-color: var(--color-accent);
   }
-
   .timeline-type[data-type="learning"] {
     color: #10b981;
     border-color: #10b981;
   }
-
   .timeline-type[data-type="transition"] {
+    color: #3b82f6;
+    border-color: #3b82f6;
+  }
+  .timeline-type[data-type="achievement"] {
     color: #f59e0b;
     border-color: #f59e0b;
   }
@@ -309,29 +258,12 @@ const entryId = `journey-${date.getTime()}`;
     transition: opacity 0.2s ease;
   }
 
-  .expand-toggle:hover {
-    opacity: 0.8;
-  }
-
-  .expand-icon {
-    transition: transform 0.2s ease;
-  }
-
-  .expand-toggle[aria-expanded="true"] .expand-icon {
-    transform: rotate(180deg);
-  }
-
-  .expand-toggle[aria-expanded="true"] .expand-text::before {
-    content: "Show less";
-  }
-
-  .expand-toggle[aria-expanded="true"] .expand-text {
-    font-size: 0;
-  }
-
-  .expand-toggle[aria-expanded="true"] .expand-text::before {
-    font-size: 0.875rem;
-  }
+  .expand-toggle:hover { opacity: 0.8; }
+  .expand-icon { transition: transform 0.2s ease; }
+  .expand-toggle[aria-expanded="true"] .expand-icon { transform: rotate(180deg); }
+  .expand-toggle[aria-expanded="true"] .expand-text::before { content: "Show less"; }
+  .expand-toggle[aria-expanded="true"] .expand-text { font-size: 0; }
+  .expand-toggle[aria-expanded="true"] .expand-text::before { font-size: 0.875rem; }
 
   .timeline-body {
     display: grid;
@@ -340,14 +272,8 @@ const entryId = `journey-${date.getTime()}`;
     overflow: hidden;
   }
 
-  .timeline-body[aria-hidden="false"] {
-    grid-template-rows: 1fr;
-  }
-
-  .timeline-body-content {
-    min-height: 0;
-    overflow: hidden;
-  }
+  .timeline-body[aria-hidden="false"] { grid-template-rows: 1fr; }
+  .timeline-body-content { min-height: 0; overflow: hidden; }
 
   .timeline-body-content.prose {
     padding-top: 1.5rem;
@@ -355,79 +281,28 @@ const entryId = `journey-${date.getTime()}`;
     margin-top: 1rem;
   }
 
-  .timeline-body-content.prose :global(h2) {
-    font-size: 1.125rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .timeline-body-content.prose :global(h2:first-child) {
-    margin-top: 0;
-  }
-
-  .timeline-body-content.prose :global(p) {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    margin-bottom: 1rem;
-  }
-
-  .timeline-body-content.prose :global(ul),
-  .timeline-body-content.prose :global(ol) {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: var(--color-text-secondary);
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-  }
-
-  .timeline-body-content.prose :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .timeline-body-content.prose :global(strong) {
-    color: var(--color-text);
-    font-weight: 600;
-  }
+  /* Prose Styling */
+  .timeline-body-content.prose :global(h2) { font-size: 1.125rem; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+  .timeline-body-content.prose :global(p), 
+  .timeline-body-content.prose :global(ul) { font-size: 0.9375rem; line-height: 1.7; color: var(--color-text-secondary); margin-bottom: 1rem; }
+  .timeline-body-content.prose :global(ul) { padding-left: 1.5rem; }
 
   @media (max-width: 768px) {
-    .timeline-entry {
-      grid-template-columns: 1.5rem 1fr;
-      gap: 1rem;
-    }
-
-    .timeline-dot {
-      width: 0.75rem;
-      height: 0.75rem;
-      border-width: 2px;
-    }
-
-    .timeline-title {
-      font-size: 1.125rem;
-    }
-
-    .timeline-description {
-      font-size: 0.875rem;
-    }
-
-    .timeline-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
+    .timeline-entry { grid-template-columns: 1.5rem 1fr; gap: 1rem; }
+    .timeline-dot { width: 0.75rem; height: 0.75rem; border-width: 2px; }
+    .timeline-title { font-size: 1.125rem; }
+    .timeline-header { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
   }
 </style>
 
 <script>
   function initExpandToggles() {
     const toggles = document.querySelectorAll('.expand-toggle');
-    
     toggles.forEach(toggle => {
       toggle.addEventListener('click', () => {
         const expanded = toggle.getAttribute('aria-expanded') === 'true';
         const targetId = toggle.getAttribute('aria-controls');
         const target = document.getElementById(targetId!);
-        
         if (target) {
           toggle.setAttribute('aria-expanded', String(!expanded));
           target.setAttribute('aria-hidden', String(expanded));
@@ -435,10 +310,6 @@ const entryId = `journey-${date.getTime()}`;
       });
     });
   }
-
-  // Initialize on page load
   initExpandToggles();
-
-  // Re-initialize after Astro page transitions
   document.addEventListener('astro:after-swap', initExpandToggles);
 </script>
