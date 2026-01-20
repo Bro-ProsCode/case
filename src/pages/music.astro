@@ -3,15 +3,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
 import PageStats from '../components/PageStats.astro';
 
-// You can eventually move this data to a 'content collection' 
-// for now, we'll define your compositions here for simplicity.
+// DATA SECTION: Update your pieces here
 const compositions = [
   {
-    title: "Symphony No. 1 in C Minor",
-    instruments: "Full Orchestra (Strings, Brass, Woodwinds, Percussion)",
-    audioEmbed: '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/YOUR_TRACK_ID&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>',
-    pdfLink: "/scores/symphony-1.pdf",
-    year: "2025"
+    title: "Nocturne in E-Flat",
+    instruments: "Solo Piano",
+    audioFile: "/audio/nocturne-eflat.mp3", // Path to your uploaded file
+    pdfLink: "/scores/nocturne-eflat.pdf",
+    year: "2025",
+    process: "I composed this piece using MIDI input in Logic Pro, focusing on romantic-era harmonies. The middle section utilizes a complex polyrhythm that I developed while studying jazz theory. I eventually transcribed the performance into MuseScore to create the final sheet music."
+  },
+  {
+    title: "Data Pulse",
+    instruments: "Synthesizer & Digital Percussion",
+    audioFile: "/audio/data-pulse.mp3",
+    pdfLink: "/scores/data-pulse.pdf",
+    year: "2026",
+    process: "Inspired by my Data Science coursework, I wanted to represent a sorting algorithm through sound. Each percussive strike corresponds to a specific data point moving through an array. The crescendo represents the algorithm reaching a sorted state."
   }
 ];
 
@@ -29,9 +37,7 @@ const totalWorks = compositions.length;
   <main class="page-container">
     <header class="page-header">
       <h1 class="page-title">Original Music</h1>
-      <p class="page-intro">
-        A collection of my original compositions, scores, and arrangements.
-      </p>
+      <p class="page-intro">A collection of my original compositions, scores, and arrangements.</p>
       <PageStats text={`${totalWorks} compositions`} />
     </header>
 
@@ -46,7 +52,17 @@ const totalWorks = compositions.length;
             
             <p class="instruments"><strong>Instruments:</strong> {piece.instruments}</p>
             
-            <div class="audio-player" set:html={piece.audioEmbed} />
+            <div class="process-section">
+              <strong>The Process:</strong>
+              <p>{piece.process}</p>
+            </div>
+
+            <div class="audio-container">
+              <audio controls>
+                <source src={piece.audioFile} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
             
             <div class="music-footer">
               <a href={piece.pdfLink} class="pdf-button" target="_blank">
@@ -61,23 +77,18 @@ const totalWorks = compositions.length;
 </BaseLayout>
 
 <style>
-  /* These styles mimic your ProjectCard component for a seamless look */
   .card-list {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
     margin-top: 2rem;
   }
 
   .music-card {
-    padding: 1.5rem;
+    padding: 2rem;
     border: 1px solid var(--color-border);
     border-radius: 8px;
     background: var(--color-bg-secondary);
-    transition: transform 0.2s ease;
-  }
-
-  .music-card:hover {
-    transform: translateY(-4px);
   }
 
   .music-header {
@@ -88,14 +99,15 @@ const totalWorks = compositions.length;
   }
 
   .music-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: 700;
     margin: 0;
+    color: var(--color-text);
   }
 
   .music-year {
     color: var(--color-text-muted);
-    font-size: 0.9rem;
+    font-size: 0.9375rem;
   }
 
   .instruments {
@@ -104,21 +116,41 @@ const totalWorks = compositions.length;
     margin-bottom: 1.5rem;
   }
 
-  .audio-player {
+  .process-section {
     margin-bottom: 1.5rem;
-    border-radius: 4px;
-    overflow: hidden;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  .process-section strong {
+    display: block;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .audio-container {
+    margin-bottom: 2rem;
+  }
+
+  audio {
+    width: 100%;
+    height: 40px;
+    filter: invert(0.1); /* Subtle adjustment to match dark/light themes */
   }
 
   .pdf-button {
-    display: inline-block;
-    padding: 0.5rem 1rem;
+    display: inline-flex;
+    padding: 0.625rem 1.25rem;
     background: var(--color-accent);
     color: white;
     text-decoration: none;
     border-radius: 4px;
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: 0.9375rem;
   }
 
   .pdf-button:hover {
