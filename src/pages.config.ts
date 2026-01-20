@@ -73,9 +73,9 @@ export const pagesConfig = {
    */
   journey: {
     title: 'Journey - Career Growth & Learning Timeline',
-    description: 'A chronological timeline of my professional journey, highlighting key milestones, learning moments, and career transitions that shaped my growth.',
+    description: 'A chronological timeline of my professional and scholastic journey, highlighting key milestones, learning moments, and career transitions that shaped my growth.',
     heading: 'Journey',
-    intro: 'A timeline of my professional growth and learning progression. This isn\'t a resume—it\'s a story of how the experiences, challenges, and opportunities I\'ve encountered have shaped my career and skills over time.',
+    intro: 'A story of how the experiences, challenges, and opportunities I\'ve encountered have shaped my career and skills over time.',
   },
 
   
