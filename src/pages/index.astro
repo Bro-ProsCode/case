@@ -53,39 +53,44 @@ const uvaStatus = await getEntry('journey', 'uva-student');
           </div>
         </div>
 
-        <div class="hero-right">
-          <div class="case-snapshots">
-            
-            {/* Card 1: SEAP Project */}
-            {seapProject ? (
-              <a href={`/projects/${seapProject.id}`} class="case-snapshot">
-                <span class="case-label">Featured Project · {seapProject.data.role}</span>
-                <span class="case-title">{seapProject.data.title}</span>
-                <span class="case-outcome">{seapProject.data.outcomeSummary}</span>
-              </a>
-            ) : (
-              <div class="case-snapshot">
-                <span class="case-label">Missing File</span>
-                <span class="case-title">SEAP Project Not Found</span>
-                <span class="case-outcome">Check that src/content/projects/seap-project.md exists.</span>
-              </div>
-            )}
+          <div class="hero-right">
+            <div class="case-snapshots">
+              
+              {/* Card 1: SEAP Project */}
+              {seapProject ? (
+                <a href={`/projects/${seapProject.id}`} class="case-snapshot">
+                  <div class="snapshot-header">
+                    <span class="case-label">Featured Project · {seapProject.data.role}</span>
+                    <span class="status-tag tag-date">June 2024</span>
+                  </div>
+                  <span class="case-title">{seapProject.data.title}</span>
+                  <span class="case-outcome">{seapProject.data.outcomeSummary}</span>
+                </a>
+              ) : (
+                <div class="case-snapshot">
+                  <span class="case-label">Missing File</span>
+                  <span class="case-title">SEAP Project Not Found</span>
+                </div>
+              )}
 
-            {/* Card 2: UVA Status pulled from Journey */}
-            {uvaStatus ? (
-              <a href="/journey" class="case-snapshot">
-                <span class="case-label">Current Status · {uvaStatus.data.type}</span>
-                <span class="case-title">{uvaStatus.data.title}</span>
-                <span class="case-outcome">{uvaStatus.data.description}</span>
-              </a>
-            ) : (
-              <div class="case-snapshot">
-                <span class="case-label">Missing File</span>
-                <span class="case-title">UVA Status Not Found</span>
-                <span class="case-outcome">Check that src/content/journey/uva-student.mdx exists.</span>
-              </div>
-            )}
+              {/* Card 2: UVA Status */}
+              {uvaStatus ? (
+                <a href="/journey" class="case-snapshot">
+                  <div class="snapshot-header">
+                    <span class="case-label">Current Status · {uvaStatus.data.type}</span>
+                    <span class="status-tag tag-ongoing">Ongoing</span>
+                  </div>
+                  <span class="case-title">{uvaStatus.data.title}</span>
+                  <span class="case-outcome">{uvaStatus.data.description}</span>
+                </a>
+              ) : (
+                <div class="case-snapshot">
+                  <span class="case-label">Missing File</span>
+                  <span class="case-title">UVA Status Not Found</span>
+                </div>
+              )}
 
+            </div>
           </div>
         </div>
       </div>
@@ -118,6 +123,8 @@ const uvaStatus = await getEntry('journey', 'uva-student');
         <a href="/contact" class="btn-secondary">Get in Touch</a>
       </div>
     </section>
+
+    
   </main>
 
   <style>
@@ -157,5 +164,41 @@ const uvaStatus = await getEntry('journey', 'uva-student');
       .hero-cta, .cta-buttons { flex-direction: column; }
       .btn-primary, .btn-secondary { text-align: center; width: 100%; }
     }
+
+    /* New styles for the visual tags */
+  .snapshot-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .status-tag {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  /* The Green "Ongoing" tag */
+  .tag-ongoing {
+    background-color: rgba(34, 197, 94, 0.1); /* Subtle green bg */
+    color: #22c55e; /* Bright green text */
+    border: 1px solid rgba(34, 197, 94, 0.2);
+  }
+
+  /* The Date tag */
+  .tag-date {
+    background-color: var(--color-bg-elevated);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+
+  /* Ensure the label doesn't have its own bottom margin anymore */
+  .case-label {
+    margin-bottom: 0 !important;
+  }
   </style>
 </BaseLayout>
