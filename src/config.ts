@@ -106,7 +106,7 @@ export const siteConfig = {
     github: getEnv('SOCIAL_GITHUB', ''),
     
     /** LinkedIn profile URL */
-    linkedin: getEnv('SOCIAL_LINKEDIN', ''),
+    linkedin: getEnv('SOCIAL_LINKEDIN', 'https://www.linkedin.com/in/brody-kester-51890427b/'),
     
     /** Twitter/X profile URL */
     twitter: getEnv('SOCIAL_TWITTER', ''),
