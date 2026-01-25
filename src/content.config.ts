@@ -15,6 +15,7 @@ const projectsCollection = defineCollection({
     title: z.string(),
     role: z.string(),
     year: z.number(),
+    articleUrl: z.string().url().optional(),
     duration: z.string().optional(),
     teamSize: z.number().optional(),
     outcomeSummary: z.string(),

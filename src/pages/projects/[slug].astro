@@ -50,6 +50,7 @@ const {
   learnings,
   relatedProjects,
   status,
+  articleUrl, // Added articleUrl from schema
 } = project.data;
 
 const statusConfig = {
@@ -60,7 +61,7 @@ const statusConfig = {
 const statusInfo = statusConfig[status || 'completed'];
 
 /**
- * Reading time calculation - Decoupled from decisions collection
+ * Reading time calculation
  */
 const allText = [
   overview,
@@ -123,6 +124,20 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
         <span class="meta-separator">·</span>
         <span class="meta-item">{readingTime}</span>
       </div>
+
+      {/* External Article Link */}
+      {articleUrl && (
+        <div class="article-link-wrapper">
+          <a href={articleUrl} target="_blank" rel="noopener noreferrer" class="article-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            Read Official Feature Article
+          </a>
+        </div>
+      )}
+
       <p class="outcome-summary">{outcomeSummary}</p>
     </header>
 
@@ -207,7 +222,6 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
       </section>
     )}
 
-    {/* Note: In RelatedContent.astro, ensure the 'decisions' logic is also removed */}
     <RelatedContent 
       relatedProjects={relatedProjects} 
     />
@@ -227,6 +241,30 @@ const readingTime = formatReadingTime(calculateReadingTime(allText));
     .case-study-header h1 { font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; }
     .case-study-meta { display: flex; align-items: center; gap: 0.75rem; font-size: 0.9375rem; color: var(--color-text-secondary); margin-bottom: 1.5rem; }
     .meta-separator { opacity: 0.5; }
+
+    /* Article Button Styles */
+    .article-link-wrapper { margin-bottom: 2rem; }
+    .article-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 6px;
+      color: var(--color-text);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .article-btn:hover {
+      background: var(--color-bg-elevated);
+      border-color: var(--color-text-muted);
+      transform: translateY(-1px);
+    }
+    .article-btn svg { opacity: 0.7; }
+
     .outcome-summary { font-size: 1.125rem; line-height: 1.6; color: var(--color-text-secondary); }
     .case-study-section { margin-bottom: 3rem; }
     .case-study-section h2 { font-size: 1.75rem; margin-bottom: 1.25rem; font-weight: 700; letter-spacing: -0.01em; }
